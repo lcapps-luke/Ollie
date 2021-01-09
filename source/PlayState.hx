@@ -2,27 +2,34 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.system.FlxAssets;
-import flixel.system.FlxSound;
+import flixel.text.FlxText;
 import script.Cue;
 import script.Script;
 
 class PlayState extends AbstractGraveyardState
 {
+	private static inline var END_TIME_FADE:Int = 138315;
+	private static inline var END_TIME_SWAP:Int = END_TIME_FADE + 3000;
+
 	private var target:Array<Target>;
 
 	private var cues:Array<Cue> = [];
-	private var nextTimeIndex = 0;
+	private var nextCue:Cue = null;
+	private var nextCueIndex = 0;
 
 	private var progressBar:FlxSprite;
 	private var showUdin = false;
+
+	private var score = 0;
+	private var scoreText:FlxText;
+
+	private var end:Bool = false;
 
 	override public function create()
 	{
 		super.create();
 
-		// TODO load sprites and masks
+		// load sprites and masks
 		target = new Array<Target>();
 		loadTargetMaskPair(Layout.TGT_1_X, Layout.TGT_1_Y, AssetPaths.hm_1__png, Layout.MASK_1_X, Layout.MASK_1_Y);
 		loadTargetMaskPair(Layout.TGT_2_X, Layout.TGT_2_Y, AssetPaths.hm_2__png, Layout.MASK_2_X, Layout.MASK_2_Y);
@@ -37,12 +44,20 @@ class PlayState extends AbstractGraveyardState
 		progressBar.scale.set(0, 1);
 		progressBar.x = 639;
 		progressBar.y = 99;
-		progressBar.angle = -1.45;
+		progressBar.angle = Layout.BOARD_ANGLE;
+		progressBar.antialiasing = true;
 		add(progressBar);
 
-		// adjust times
+		scoreText = new FlxText(Layout.SCORE_X, Layout.SCORE_Y, Layout.SCORE_WIDTH, "0");
+		scoreText.setFormat(AssetPaths.PermanentMarker__ttf, Layout.SCORE_SIZE, 0xFF000000);
+		scoreText.angle = Layout.BOARD_ANGLE;
+		scoreText.antialiasing = true;
+		add(scoreText);
+
+		// load cues
 		cues = Script.load(-Std.int(Target.SHOW_DURATION * 1000));
-		trace(cues);
+		nextCueIndex = 0;
+		nextCue = cues[nextCueIndex];
 
 		// TODO start countdown
 
@@ -52,7 +67,7 @@ class PlayState extends AbstractGraveyardState
 
 	private inline function loadTargetMaskPair(tgtX:Float, tgtY:Float, mask:String, mskX:Float, mskY:Float)
 	{
-		var t = new Target(tgtX, tgtY);
+		var t = new Target(tgtX, tgtY, onTargetHit);
 		add(t);
 		target.push(t);
 
@@ -65,44 +80,61 @@ class PlayState extends AbstractGraveyardState
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.SPACE)
+		if (nextCue != null && FlxG.sound.music.time >= nextCue.time)
 		{
-			trace(FlxG.sound.music.time);
-		}
-
-		var cue = nextTimeIndex < cues.length ? cues[nextTimeIndex] : null;
-		if (cue != null && FlxG.sound.music.time >= cue.time)
-		{
-			nextTimeIndex++;
-
 			var txtIdx = [0, 1, 2, 3, 4, 5];
 			FlxG.random.shuffle(txtIdx);
 
-			if (cue.ollie > 0)
+			var count = 0;
+
+			for (i in txtIdx)
 			{
-				for (i in txtIdx)
+				if (!target[i].isShowing())
 				{
-					if (!target[i].isShowing())
+					if (count < nextCue.ollie)
 					{
-						target[i].show(0.5, true, FlxG.random.int(0, 4));
+						target[i].show(nextCue.hold, true, FlxG.random.int(0, 4));
+					}
+					else if (count < nextCue.ollie + nextCue.udin)
+					{
+						target[i].show(nextCue.hold, false);
+					}
+					else
+					{
 						break;
 					}
+
+					count++;
 				}
 			}
 
-			if (cue.udin > 0)
+			nextCueIndex++;
+			if (nextCueIndex < cues.length)
 			{
-				for (i in txtIdx)
-				{
-					if (!target[i].isShowing())
-					{
-						target[i].show(0.5, false);
-						break;
-					}
-				}
+				nextCue = cues[nextCueIndex];
+			}
+			else
+			{
+				nextCue = null;
 			}
 		}
 
-		progressBar.scale.set(FlxG.sound.music.time / FlxG.sound.music.length, 1);
+		if (FlxG.sound.music.time > END_TIME_FADE && !end)
+		{
+			end = true;
+			FlxG.sound.music.fadeOut(3, 0.25);
+		}
+		if (FlxG.sound.music.time > END_TIME_SWAP)
+		{
+			FlxG.switchState(new EndState(score));
+		}
+
+		progressBar.scale.set(Math.min(FlxG.sound.music.time / END_TIME_FADE, 1), 1);
+	}
+
+	public function onTargetHit(good:Bool)
+	{
+		score += good ? 100 : -100;
+		scoreText.text = Std.string(score);
 	}
 }

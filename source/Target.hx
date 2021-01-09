@@ -23,14 +23,17 @@ class Target extends FlxSpriteGroup
 	private var hitOllie:FlxSprite;
 
 	private var isOllie:Bool = true;
-	private var ollieIndex:Int = -1;
 
 	private var holdTimer:Float = 0;
 	private var startY:Float = 0;
 
-	public function new(x:Float, y:Float)
+	private var hit:Bool = false;
+	private var hitCallback:Bool->Void;
+
+	public function new(x:Float, y:Float, hitCallback:Bool->Void)
 	{
 		super(x, y);
+		this.hitCallback = hitCallback;
 
 		startY = y;
 
@@ -68,6 +71,7 @@ class Target extends FlxSpriteGroup
 	public function show(hold:Float, good:Bool, index:Int = -1)
 	{
 		killAll();
+		hit = false;
 
 		if (good && index != -1)
 		{
@@ -80,7 +84,6 @@ class Target extends FlxSpriteGroup
 		}
 
 		isOllie = good;
-		ollieIndex = index;
 
 		holdTimer = hold + SHOW_DURATION;
 
@@ -100,14 +103,21 @@ class Target extends FlxSpriteGroup
 			}
 		}
 
-		if (isShowing() && FlxG.mouse.justPressed && !hitOllie.alive)
+		if (isShowing() && FlxG.mouse.justPressed && !hit)
 		{
 			var point = FlxG.mouse.getPosition();
 			if (this.getHitbox().containsPoint(point) && point.y < startY)
 			{
-				killAll();
-				hitOllie.revive();
+				hit = true;
+				hitCallback(isOllie);
+
 				holdTimer = 0.001;
+
+				if (isOllie)
+				{
+					killAll();
+					hitOllie.revive();
+				}
 			}
 		}
 	}

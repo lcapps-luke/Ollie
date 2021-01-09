@@ -9,7 +9,7 @@ using flixel.util.FlxSpriteUtil;
 
 class Button extends FlxSpriteGroup
 {
-	public static inline var PADDING:Float = 40;
+	public static inline var PADDING:Float = 20;
 
 	private var callback:Void->Void;
 	private var spr:FlxSprite;
