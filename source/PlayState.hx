@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import score.ScoreClient;
@@ -194,7 +195,25 @@ class PlayState extends AbstractGraveyardState
 		updateScoreboard();
 
 		var ind = createHitIndicator();
-		ind.score(FlxG.mouse.x, FlxG.mouse.y, incr);
+
+		var point:FlxPoint = null;
+		#if !FLX_NO_MOUSE
+		point = FlxG.mouse.getPosition();
+		#end
+
+		#if !FLX_NO_TOUCH
+		var touch = FlxG.touches.getFirst();
+		if (touch != null)
+		{
+			point = touch.getPosition();
+		}
+		else
+		{
+			point = FlxPoint.get();
+		}
+		#end
+
+		ind.score(point.x, point.y, incr);
 	}
 
 	public function onTargetMiss(x:Float, y:Float)

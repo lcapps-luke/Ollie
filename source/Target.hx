@@ -105,9 +105,27 @@ class Target extends FlxSpriteGroup
 			}
 		}
 
-		if (isShowing() && FlxG.mouse.justPressed && !hit)
+		var click = false;
+		#if !FLX_NO_MOUSE
+		click = FlxG.mouse.justPressed;
+		#end
+
+		#if !FLX_NO_TOUCH
+		var touch = FlxG.touches.justStarted();
+		click = touch.length > 0;
+		#end
+
+		if (isShowing() && click && !hit)
 		{
-			var point = FlxG.mouse.getPosition();
+			var point = null;
+			#if !FLX_NO_MOUSE
+			point = FlxG.mouse.getPosition();
+			#end
+
+			#if !FLX_NO_TOUCH
+			point = touch[0].getPosition();
+			#end
+
 			if (this.getHitbox().containsPoint(point) && point.y < startY)
 			{
 				hit = true;

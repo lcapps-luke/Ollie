@@ -39,6 +39,7 @@ class Button extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 
+		#if !FLX_NO_MOUSE
 		var over:Bool = this.getHitbox().containsPoint(FlxG.mouse.getPosition());
 
 		this.alpha = over ? 1 : 0.8;
@@ -47,5 +48,15 @@ class Button extends FlxSpriteGroup
 		{
 			callback();
 		}
+		#end
+
+		#if !FLX_NO_TOUCH
+		var touch = FlxG.touches.getFirst();
+
+		if (touch != null && touch.justReleased && this.getHitbox().containsPoint(touch.getPosition()))
+		{
+			callback();
+		}
+		#end
 	}
 }
