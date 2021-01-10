@@ -35,6 +35,6 @@ class Layout
 	public static inline var BOARD_ANGLE:Float = -1.45;
 	public static inline var SCORE_X:Float = 636;
 	public static inline var SCORE_Y:Float = 25;
-	public static inline var SCORE_WIDTH:Float = 480;
+	public static inline var SCORE_WIDTH:Float = 700;
 	public static inline var SCORE_SIZE:Int = 50;
 }

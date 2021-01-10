@@ -29,11 +29,13 @@ class Target extends FlxSpriteGroup
 
 	private var hit:Bool = false;
 	private var hitCallback:Bool->Void;
+	private var missCallback:Float->Float->Void;
 
-	public function new(x:Float, y:Float, hitCallback:Bool->Void)
+	public function new(x:Float, y:Float, hitCallback:Bool->Void, missCallback:Float->Float->Void)
 	{
 		super(x, y);
 		this.hitCallback = hitCallback;
+		this.missCallback = missCallback;
 
 		startY = y;
 
@@ -99,7 +101,7 @@ class Target extends FlxSpriteGroup
 			holdTimer -= elapsed;
 			if (holdTimer <= 0)
 			{
-				FlxTween.tween(this, {y: startY}, SHOW_DURATION, {ease: FlxEase.sineOut});
+				FlxTween.tween(this, {y: startY}, SHOW_DURATION, {ease: FlxEase.sineOut, onComplete: onHidden});
 			}
 		}
 
@@ -119,6 +121,14 @@ class Target extends FlxSpriteGroup
 					hitOllie.revive();
 				}
 			}
+		}
+	}
+
+	private function onHidden(tween:FlxTween)
+	{
+		if (!hit && isOllie)
+		{
+			missCallback(x + width / 2, y);
 		}
 	}
 

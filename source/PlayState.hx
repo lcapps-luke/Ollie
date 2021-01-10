@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import script.Cue;
 import script.Script;
@@ -10,18 +11,19 @@ class PlayState extends AbstractGraveyardState
 {
 	private static inline var END_TIME_FADE:Int = 138315;
 	private static inline var END_TIME_SWAP:Int = END_TIME_FADE + 3000;
+	private static inline var COMBO_MULTIPLIER:Float = 0.01;
 
 	private var target:Array<Target>;
+	private var progressBar:FlxSprite;
+	private var hitDisplay:FlxTypedGroup<HitIndicator>;
+	private var scoreText:FlxText;
+
+	private var score = 0;
+	private var combo = 0;
 
 	private var cues:Array<Cue> = [];
 	private var nextCue:Cue = null;
 	private var nextCueIndex = 0;
-
-	private var progressBar:FlxSprite;
-	private var showUdin = false;
-
-	private var score = 0;
-	private var scoreText:FlxText;
 
 	private var end:Bool = false;
 
@@ -54,6 +56,9 @@ class PlayState extends AbstractGraveyardState
 		scoreText.antialiasing = true;
 		add(scoreText);
 
+		hitDisplay = new FlxTypedGroup<HitIndicator>();
+		add(hitDisplay);
+
 		// load cues
 		cues = Script.load(-Std.int(Target.SHOW_DURATION * 1000));
 		nextCueIndex = 0;
@@ -67,7 +72,7 @@ class PlayState extends AbstractGraveyardState
 
 	private inline function loadTargetMaskPair(tgtX:Float, tgtY:Float, mask:String, mskX:Float, mskY:Float)
 	{
-		var t = new Target(tgtX, tgtY, onTargetHit);
+		var t = new Target(tgtX, tgtY, onTargetHit, onTargetMiss);
 		add(t);
 		target.push(t);
 
@@ -134,7 +139,42 @@ class PlayState extends AbstractGraveyardState
 
 	public function onTargetHit(good:Bool)
 	{
-		score += good ? 100 : -100;
-		scoreText.text = Std.string(score);
+		if (!good)
+		{
+			combo = 0;
+		}
+		else
+		{
+			combo++;
+		}
+
+		var bonus = combo > 1 ? Math.floor(100 * (combo * COMBO_MULTIPLIER)) : 0;
+		var incr = good ? (100 + bonus) : -100;
+
+		score += incr;
+		updateScoreboard();
+
+		var ind = createHitIndicator();
+		ind.score(FlxG.mouse.x, FlxG.mouse.y, incr);
+	}
+
+	public function onTargetMiss(x:Float, y:Float)
+	{
+		var ind = createHitIndicator();
+		ind.miss(x, y);
+
+		combo = 0;
+	}
+
+	private function updateScoreboard()
+	{
+		var dc = combo > 1 ? combo : 0;
+		scoreText.text = 'Score: $score (combo x$dc)';
+	}
+
+	public function createHitIndicator():HitIndicator
+	{
+		var indicator = hitDisplay.recycle(HitIndicator, HitIndicator.new);
+		return indicator;
 	}
 }

@@ -16,7 +16,7 @@ class EndState extends AbstractGraveyardState
 	{
 		super.create();
 
-		var scoreText = new FlxText(Layout.SCORE_X, Layout.SCORE_Y, Layout.SCORE_WIDTH, Std.string(score));
+		var scoreText = new FlxText(Layout.SCORE_X, Layout.SCORE_Y, Layout.SCORE_WIDTH, 'Score: $score');
 		scoreText.setFormat(AssetPaths.PermanentMarker__ttf, Layout.SCORE_SIZE, 0xFF000000);
 		scoreText.angle = Layout.BOARD_ANGLE;
 		scoreText.antialiasing = true;
