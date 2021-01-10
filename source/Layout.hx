@@ -37,4 +37,12 @@ class Layout
 	public static inline var SCORE_Y:Float = 25;
 	public static inline var SCORE_WIDTH:Float = 700;
 	public static inline var SCORE_SIZE:Int = 50;
+
+	public static inline var PROGRESS_COLOUR:Int = 0xC84C2449;
+	public static inline var PROGRESS_WIDTH:Int = 714;
+	public static inline var PROGRESS_HEIGHT:Int = 46;
+	public static inline var PROGRESS_X:Float = 639;
+	public static inline var PROGRESS_Y:Float = 99;
+
+	public static inline var COUNTDOWN_SIZE:Int = 300;
 }

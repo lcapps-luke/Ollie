@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import script.Cue;
 import script.Script;
 
@@ -17,6 +18,7 @@ class PlayState extends AbstractGraveyardState
 	private var progressBar:FlxSprite;
 	private var hitDisplay:FlxTypedGroup<HitIndicator>;
 	private var scoreText:FlxText;
+	private var countdownText:FlxText;
 
 	private var score = 0;
 	private var combo = 0;
@@ -41,11 +43,11 @@ class PlayState extends AbstractGraveyardState
 		loadTargetMaskPair(Layout.TGT_6_X, Layout.TGT_6_Y, AssetPaths.hm_6__png, Layout.MASK_6_X, Layout.MASK_6_Y);
 
 		progressBar = new FlxSprite();
-		progressBar.makeGraphic(714, 46, 0xC84C2449);
-		progressBar.origin.set(0, 23);
+		progressBar.makeGraphic(Layout.PROGRESS_WIDTH, Layout.PROGRESS_HEIGHT, Layout.PROGRESS_COLOUR);
+		progressBar.origin.set(0, Layout.PROGRESS_HEIGHT / 2);
 		progressBar.scale.set(0, 1);
-		progressBar.x = 639;
-		progressBar.y = 99;
+		progressBar.x = Layout.PROGRESS_X;
+		progressBar.y = Layout.PROGRESS_Y;
 		progressBar.angle = Layout.BOARD_ANGLE;
 		progressBar.antialiasing = true;
 		add(progressBar);
@@ -64,7 +66,37 @@ class PlayState extends AbstractGraveyardState
 		nextCueIndex = 0;
 		nextCue = cues[nextCueIndex];
 
-		// TODO start countdown
+		// start countdown
+		countdownText = new FlxText();
+		countdownText.setFormat(AssetPaths.PermanentMarker__ttf, Layout.COUNTDOWN_SIZE, 0xFFFF0000);
+		countdownText.antialiasing = true;
+		add(countdownText);
+
+		function setCountdown(v:String)
+		{
+			countdownText.scale.set(1, 1);
+			countdownText.angle = 0;
+			countdownText.text = v;
+			countdownText.x = Main.WIDTH / 2 - countdownText.width / 2;
+			countdownText.y = Main.HEIGHT / 2 - countdownText.height / 2;
+		}
+
+		setCountdown("3");
+
+		var zeroTime = nextCue.time / 1000;
+		var timePerNumber = zeroTime / 3;
+
+		var delay = timePerNumber / 2;
+		FlxTween.tween(countdownText.scale, {x: 0, y: 0}, timePerNumber / 5, {startDelay: delay, onComplete: (t) -> setCountdown("2")});
+		FlxTween.tween(countdownText, {angle: 360}, timePerNumber / 5, {startDelay: delay});
+
+		delay += timePerNumber;
+		FlxTween.tween(countdownText.scale, {x: 0, y: 0}, timePerNumber / 5, {startDelay: delay, onComplete: (t) -> setCountdown("1")});
+		FlxTween.tween(countdownText, {angle: 360}, timePerNumber / 5, {startDelay: delay});
+
+		delay += timePerNumber;
+		FlxTween.tween(countdownText.scale, {x: 0, y: 0}, timePerNumber / 5, {startDelay: delay, onComplete: (t) -> countdownText.kill()});
+		FlxTween.tween(countdownText, {angle: 360}, timePerNumber / 5, {startDelay: delay});
 
 		// FlxG.sound.muted = true;
 		FlxG.sound.playMusic(AssetPaths.swing_swing__ogg, 1, false);
@@ -164,6 +196,7 @@ class PlayState extends AbstractGraveyardState
 		ind.miss(x, y);
 
 		combo = 0;
+		updateScoreboard();
 	}
 
 	private function updateScoreboard()

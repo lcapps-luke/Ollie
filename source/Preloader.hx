@@ -12,17 +12,25 @@ private class BG extends BitmapData {}
 
 class Preloader extends FlxBasePreloader
 {
-	var _buffer:Sprite;
+	var buffer:Sprite;
+	var bar:Bitmap;
+	var barMask:Bitmap;
+	var barScale:Float = 0;
+	var maskStart:Float = 0;
+	var maskScale:Float = 0;
 
 	override public function new()
 	{
-		super(0);
+		super();
 	}
 
 	override function create()
 	{
-		_buffer = new Sprite();
-		addChild(_buffer);
+		buffer = new Sprite();
+		addChild(buffer);
+
+		var xScale = Lib.current.stage.stageWidth / Main.WIDTH;
+		var yScale = Lib.current.stage.stageHeight / Main.HEIGHT;
 
 		_width = Std.int(Lib.current.stage.stageWidth);
 		_height = Std.int(Lib.current.stage.stageHeight);
@@ -33,24 +41,45 @@ class Preloader extends FlxBasePreloader
 			bg.height = _height;
 		});
 
-		_buffer.addChild(bg);
+		buffer.addChild(bg);
+
+		barScale = Layout.PROGRESS_WIDTH * xScale;
+		maskScale = Layout.PROGRESS_X * xScale;
+		maskStart = maskScale - barScale;
+
+		barMask = new Bitmap(new BitmapData(Std.int(barScale), Std.int(70 * yScale), false));
+		barMask.x = Layout.PROGRESS_X * xScale;
+		barMask.y = 77 * yScale;
+		buffer.addChild(barMask);
+
+		bar = new Bitmap(new BitmapData(Std.int(barScale), Std.int(Layout.PROGRESS_HEIGHT * yScale), false, Layout.PROGRESS_COLOUR));
+		bar.alpha = 0.75;
+		bar.x = Layout.PROGRESS_X * xScale;
+		bar.y = Layout.PROGRESS_Y * yScale;
+		bar.rotation = Layout.BOARD_ANGLE;
+		bar.mask = barMask;
+
+		buffer.addChild(bar);
 
 		super.create();
 	}
 
 	override function destroy()
 	{
-		if (_buffer != null)
+		if (buffer != null)
 		{
-			removeChild(_buffer);
+			removeChild(buffer);
 		}
-		_buffer = null;
+		buffer = null;
+		bar = null;
+		barMask = null;
 
 		super.destroy();
 	}
 
-	override function update(Percent:Float)
+	override function update(percent:Float)
 	{
-		super.update(Percent);
+		super.update(percent);
+		barMask.x = maskStart + maskScale * percent;
 	}
 }
