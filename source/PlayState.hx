@@ -64,6 +64,7 @@ class PlayState extends AbstractGraveyardState
 		scoreText.angle = Layout.BOARD_ANGLE;
 		scoreText.antialiasing = true;
 		add(scoreText);
+		updateScoreboard();
 
 		hitDisplay = new FlxTypedGroup<HitIndicator>();
 		add(hitDisplay);
@@ -105,7 +106,6 @@ class PlayState extends AbstractGraveyardState
 		FlxTween.tween(countdownText.scale, {x: 0, y: 0}, timePerNumber / 5, {startDelay: delay, onComplete: (t) -> countdownText.kill()});
 		FlxTween.tween(countdownText, {angle: 360}, timePerNumber / 5, {startDelay: delay});
 
-		// FlxG.sound.muted = true;
 		FlxG.sound.playMusic(AssetPaths.swing_swing__ogg, 1, false);
 	}
 
