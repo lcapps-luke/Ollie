@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import score.ScoreClient;
 import script.Cue;
 import script.Script;
 
@@ -28,10 +29,16 @@ class PlayState extends AbstractGraveyardState
 	private var nextCueIndex = 0;
 
 	private var end:Bool = false;
+	private var token:String = null;
 
 	override public function create()
 	{
 		super.create();
+
+		ScoreClient.getToken(function(t)
+		{
+			token = t;
+		});
 
 		// load sprites and masks
 		target = new Array<Target>();
@@ -163,7 +170,7 @@ class PlayState extends AbstractGraveyardState
 		}
 		if (FlxG.sound.music.time > END_TIME_SWAP)
 		{
-			FlxG.switchState(new EndState(score));
+			FlxG.switchState(new EndState(score, token));
 		}
 
 		progressBar.scale.set(Math.min(FlxG.sound.music.time / END_TIME_FADE, 1), 1);

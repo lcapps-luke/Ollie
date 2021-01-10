@@ -11,6 +11,15 @@ class AbstractGraveyardState extends FlxState
 	{
 		super.create();
 
+		if (Main.SAVE.data.muted != null)
+		{
+			FlxG.sound.muted = Main.SAVE.data.muted;
+		}
+		else
+		{
+			FlxG.sound.muted = false;
+		}
+
 		var background = new FlxSprite();
 		background.loadGraphic(AssetPaths.bg__jpg);
 		add(background);
@@ -35,5 +44,8 @@ class AbstractGraveyardState extends FlxState
 	private function onToggleSound(on:Bool)
 	{
 		FlxG.sound.muted = !on;
+
+		Main.SAVE.data.mute = !on;
+		Main.SAVE.flush();
 	}
 }
