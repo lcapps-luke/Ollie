@@ -1,5 +1,6 @@
 package;
 
+import credits.CreditsSubState;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import score.Score;
@@ -37,6 +38,11 @@ class MenuState extends AbstractGraveyardState
 		showScores.x = Main.WIDTH - (Main.WIDTH / 8) - showScores.width / 2;
 		showScores.y = 128;
 		add(showScores);
+
+		var credits = new TextButton("Credits", 60, onCreditsClicked);
+		credits.x = 20;
+		credits.y = Main.HEIGHT - credits.height - 20;
+		add(credits);
 	}
 
 	private function onPlayClicked()
@@ -80,5 +86,10 @@ class MenuState extends AbstractGraveyardState
 				}
 			}
 		});
+	}
+
+	private function onCreditsClicked()
+	{
+		openSubState(new CreditsSubState());
 	}
 }

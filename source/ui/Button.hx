@@ -7,23 +7,16 @@ import flixel.util.FlxColor;
 
 using flixel.util.FlxSpriteUtil;
 
-class Button extends FlxSpriteGroup
+class Button extends BasicButton
 {
 	public static inline var PADDING:Float = 20;
 
-	private var callback:Void->Void;
-	private var spr:FlxSprite;
-
 	public function new(spr:FlxSprite, callback:Void->Void)
 	{
-		super();
+		super(spr, callback);
 
-		this.callback = callback;
-
-		this.spr = spr;
 		spr.x = PADDING;
 		spr.y = PADDING;
-		add(spr);
 
 		var back = new FlxSprite();
 		back.makeGraphic(Math.ceil(spr.width + PADDING * 2), Math.ceil(spr.height + PADDING * 2), FlxColor.TRANSPARENT, true);
@@ -33,30 +26,5 @@ class Button extends FlxSpriteGroup
 			thickness: 20,
 			color: FlxColor.WHITE
 		});
-	}
-
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		#if !FLX_NO_MOUSE
-		var over:Bool = this.getHitbox().containsPoint(FlxG.mouse.getPosition());
-
-		this.alpha = over ? 1 : 0.8;
-
-		if (FlxG.mouse.justReleased && over)
-		{
-			callback();
-		}
-		#end
-
-		#if !FLX_NO_TOUCH
-		var touch = FlxG.touches.getFirst();
-
-		if (touch != null && touch.justReleased && this.getHitbox().containsPoint(touch.getPosition()))
-		{
-			callback();
-		}
-		#end
 	}
 }
