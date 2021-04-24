@@ -1,7 +1,8 @@
 package score;
 
+import com.akifox.asynchttp.HttpRequest;
+import com.akifox.asynchttp.HttpResponse;
 import datetime.DateTime;
-import haxe.Http;
 import haxe.Json;
 
 class ScoreClient
@@ -10,65 +11,58 @@ class ScoreClient
 
 	public static function getToken(callback:String->Void):Void
 	{
-		var req = new Http('$root/token');
-		#if js
-		req.async = true;
-		#end
-		req.onData = callback;
+		var request = new HttpRequest({
+			url: '$root/token',
+			callback: function(response:HttpResponse)
+			{
+				callback(response.toText());
+			},
+			callbackError: function(response:HttpResponse)
+			{
+				callback(null);
+			}
+		});
 
-		req.onError = function(msg:String)
-		{
-			callback(null);
-		};
-
-		req.request(false);
+		request.send();
 	}
 
 	public static function submit(token:String, name:String, score:Int, callback:Bool->Void):Void
 	{
-		var req = new Http('$root');
-		#if js
-		req.async = true;
-		#end
-		req.addHeader("Content-Type", "application/json");
-		req.setPostData(Json.stringify({
-			token: token,
-			value: score,
-			name: name,
-			proof: null
-		}));
+		var request = new HttpRequest({
+			url: '$root',
+			method: "POST",
+			contentType: "application/json",
+			content: Json.stringify({
+				token: token,
+				value: score,
+				name: name,
+				proof: null
+			}),
+			callback: function(response:HttpResponse)
+			{
+				callback(response.isOK);
+			}
+		});
 
-		req.onStatus = function(status:Int)
-		{
-			callback(status >= 200 && status <= 299);
-		};
-
-		req.onError = function(msg:String)
-		{
-			callback(false);
-		}
-
-		req.request(true);
+		request.send();
 	}
 
 	public static function listScores(callback:Array<Score>->Void):Void
 	{
-		var req = new Http('$root');
-		req.addParameter("from", (DateTime.now() - Day(30)).toString());
-		#if js
-		req.async = true;
-		#end
-		req.onData = function(data:String)
-		{
-			var scores:Array<Score> = cast Json.parse(data);
-			callback(scores);
-		};
+		var fromDate = StringTools.urlEncode((DateTime.now() - Day(30)).toString());
 
-		req.onError = function(msg:String)
-		{
-			callback(null);
-		}
+		var request = new HttpRequest({
+			url: '$root?from=$fromDate',
+			callback: function(response:HttpResponse)
+			{
+				callback(cast response.toJson());
+			},
+			callbackError: function(response:HttpResponse)
+			{
+				callback(null);
+			}
+		});
 
-		req.request(false);
+		request.send();
 	}
 }
