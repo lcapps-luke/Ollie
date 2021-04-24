@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxDestroyUtil;
+import ui.InteractionUtils;
 
 class Target extends FlxSpriteGroup
 {
@@ -105,26 +107,9 @@ class Target extends FlxSpriteGroup
 			}
 		}
 
-		var click = false;
-		#if !FLX_NO_MOUSE
-		click = FlxG.mouse.justPressed;
-		#end
-
-		#if !FLX_NO_TOUCH
-		var touch = FlxG.touches.justStarted();
-		click = touch.length > 0;
-		#end
-
-		if (isShowing() && click && !hit)
+		if (isShowing() && !hit && InteractionUtils.justClicked())
 		{
-			var point = null;
-			#if !FLX_NO_MOUSE
-			point = FlxG.mouse.getPosition();
-			#end
-
-			#if !FLX_NO_TOUCH
-			point = touch[0].getPosition();
-			#end
+			var point = InteractionUtils.clickPoint();
 
 			if (this.getHitbox().containsPoint(point) && point.y < startY)
 			{
@@ -139,6 +124,8 @@ class Target extends FlxSpriteGroup
 					hitOllie.revive();
 				}
 			}
+
+			FlxDestroyUtil.put(point);
 		}
 	}
 

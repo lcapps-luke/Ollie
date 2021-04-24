@@ -6,9 +6,11 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxDestroyUtil;
 import score.ScoreClient;
 import script.Cue;
 import script.Script;
+import ui.InteractionUtils;
 
 class PlayState extends AbstractGraveyardState
 {
@@ -196,24 +198,11 @@ class PlayState extends AbstractGraveyardState
 
 		var ind = createHitIndicator();
 
-		var point:FlxPoint = null;
-		#if !FLX_NO_MOUSE
-		point = FlxG.mouse.getPosition();
-		#end
+		var point:FlxPoint = InteractionUtils.clickPoint();
 
-		#if !FLX_NO_TOUCH
-		var touch = FlxG.touches.getFirst();
-		if (touch != null)
-		{
-			point = touch.getPosition();
-		}
-		else
-		{
-			point = FlxPoint.get();
-		}
-		#end
+		ind.score(point == null ? 0 : point.x, point == null ? 0 : point.y, incr);
 
-		ind.score(point.x, point.y, incr);
+		FlxDestroyUtil.put(point);
 	}
 
 	public function onTargetMiss(x:Float, y:Float)
