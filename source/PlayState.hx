@@ -71,7 +71,7 @@ class PlayState extends AbstractGraveyardState
 		add(hitDisplay);
 
 		// load cues
-		cues = Script.load(-Std.int(Target.SHOW_DURATION * 1000));
+		cues = Script.load(AssetPaths.swing_swing_kk_normal__txt, -Std.int(Target.SHOW_DURATION * 1000));
 		nextCueIndex = 0;
 		nextCue = cues[nextCueIndex];
 

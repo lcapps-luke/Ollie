@@ -7,9 +7,9 @@ class Script
 {
 	private static var SCRIPT_REGEX = ~/^(\d+) ([\.\d]+) (\d) (\d)$/;
 
-	public static function load(shift:Int):Array<Cue>
+	public static function load(script:String, shift:Int):Array<Cue>
 	{
-		var dataInput = new BytesInput(Assets.getBytes(AssetPaths.script__txt));
+		var dataInput = new BytesInput(Assets.getBytes(script));
 		var cueList = new Array<Cue>();
 
 		while (dataInput.position < dataInput.length)
