@@ -47,6 +47,7 @@ class MenuState extends AbstractGraveyardState
 
 	private function onPlayClicked()
 	{
+		FlxG.sound.destroy(true);
 		FlxG.switchState(new PlayState());
 	}
 

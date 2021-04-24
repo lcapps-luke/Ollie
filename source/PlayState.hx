@@ -7,6 +7,7 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxDestroyUtil;
+import haxe.Json;
 import score.ScoreClient;
 import script.Cue;
 import script.Script;
@@ -110,6 +111,14 @@ class PlayState extends AbstractGraveyardState
 		FlxTween.tween(countdownText, {angle: 360}, timePerNumber / 5, {startDelay: delay});
 
 		FlxG.sound.playMusic(AssetPaths.swing_swing__ogg, 1, false);
+
+		function sndRetry()
+		{
+			FlxG.sound.destroy(true);
+			FlxG.sound.playMusic(AssetPaths.swing_swing__ogg, 1, false);
+			FlxG.sound.music.onComplete = sndRetry;
+		}
+		FlxG.sound.music.onComplete = sndRetry;
 	}
 
 	private inline function loadTargetMaskPair(tgtX:Float, tgtY:Float, mask:String, mskX:Float, mskY:Float)
@@ -173,6 +182,7 @@ class PlayState extends AbstractGraveyardState
 		}
 		if (FlxG.sound.music.time > END_TIME_SWAP)
 		{
+			FlxG.sound.music.onComplete = null;
 			FlxG.switchState(new EndState(score, token));
 		}
 
