@@ -86,6 +86,8 @@
 	<icon path="icon.png"/>
 	<config:android target-sdk-version="30" />
 
+	<haxeflag name="-dce" value="full"/>
+
 	<!-- Protected stuff such as certificates & passwords -->
 	<section if="mobile" unless="debug">
 		<include path="private/Project.xml"/>
