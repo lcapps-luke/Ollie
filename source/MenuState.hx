@@ -81,7 +81,7 @@ class MenuState extends AbstractGraveyardState
 			var yy:Float = 72;
 			for (i in list)
 			{
-				if (names.contains(i.name))
+				if (i.name == null || names.contains(i.name))
 				{
 					continue;
 				}

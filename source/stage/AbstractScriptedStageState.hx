@@ -39,15 +39,6 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 	{
 		super.create();
 
-		// load sprites and masks
-		target = new Array<Target>();
-		loadTargetMaskPair(Layout.TGT_1_X, Layout.TGT_1_Y, AssetPaths.hm_1__png, Layout.MASK_1_X, Layout.MASK_1_Y);
-		loadTargetMaskPair(Layout.TGT_2_X, Layout.TGT_2_Y, AssetPaths.hm_2__png, Layout.MASK_2_X, Layout.MASK_2_Y);
-		loadTargetMaskPair(Layout.TGT_3_X, Layout.TGT_3_Y, AssetPaths.hm_3__png, Layout.MASK_3_X, Layout.MASK_3_Y);
-		loadTargetMaskPair(Layout.TGT_4_X, Layout.TGT_4_Y, AssetPaths.hm_4__png, Layout.MASK_4_X, Layout.MASK_4_Y);
-		loadTargetMaskPair(Layout.TGT_5_X, Layout.TGT_5_Y, AssetPaths.hm_5__png, Layout.MASK_5_X, Layout.MASK_5_Y);
-		loadTargetMaskPair(Layout.TGT_6_X, Layout.TGT_6_Y, AssetPaths.hm_6__png, Layout.MASK_6_X, Layout.MASK_6_Y);
-
 		scoreText = new FlxText(Layout.SCORE_X, Layout.SCORE_Y, Layout.SCORE_WIDTH, "0");
 		scoreText.setFormat(AssetPaths.PermanentMarker__ttf, Layout.SCORE_SIZE, 0xFF000000);
 		scoreText.angle = Layout.BOARD_ANGLE;
@@ -57,6 +48,18 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 
 		hitDisplay = new FlxTypedGroup<HitIndicator>();
 		add(hitDisplay);
+	}
+
+	private function createBackground()
+	{
+		// load sprites and masks
+		target = new Array<Target>();
+		loadTargetMaskPair(Layout.TGT_1_X, Layout.TGT_1_Y, AssetPaths.hm_1__png, Layout.MASK_1_X, Layout.MASK_1_Y);
+		loadTargetMaskPair(Layout.TGT_2_X, Layout.TGT_2_Y, AssetPaths.hm_2__png, Layout.MASK_2_X, Layout.MASK_2_Y);
+		loadTargetMaskPair(Layout.TGT_3_X, Layout.TGT_3_Y, AssetPaths.hm_3__png, Layout.MASK_3_X, Layout.MASK_3_Y);
+		loadTargetMaskPair(Layout.TGT_4_X, Layout.TGT_4_Y, AssetPaths.hm_4__png, Layout.MASK_4_X, Layout.MASK_4_Y);
+		loadTargetMaskPair(Layout.TGT_5_X, Layout.TGT_5_Y, AssetPaths.hm_5__png, Layout.MASK_5_X, Layout.MASK_5_Y);
+		loadTargetMaskPair(Layout.TGT_6_X, Layout.TGT_6_Y, AssetPaths.hm_6__png, Layout.MASK_6_X, Layout.MASK_6_Y);
 	}
 
 	private inline function loadTargetMaskPair(tgtX:Float, tgtY:Float, mask:String, mskX:Float, mskY:Float)

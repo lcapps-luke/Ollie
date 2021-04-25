@@ -30,4 +30,6 @@ class DevStage extends AbstractStageState
 	{
 		FlxG.switchState(new MenuState());
 	}
+
+	function createBackground() {}
 }

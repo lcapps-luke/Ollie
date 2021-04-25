@@ -31,6 +31,8 @@ abstract class AbstractStageState extends AbstractGraveyardState
 	{
 		super.create();
 
+		createBackground();
+
 		progressBar = new FlxSprite();
 		progressBar.makeGraphic(Layout.PROGRESS_WIDTH, Layout.PROGRESS_HEIGHT, Layout.PROGRESS_COLOUR);
 		progressBar.origin.set(0, Layout.PROGRESS_HEIGHT / 2);
@@ -101,6 +103,8 @@ abstract class AbstractStageState extends AbstractGraveyardState
 
 		progressBar.scale.set(Math.min(FlxG.sound.music.time / endFade, 1), 1);
 	}
+
+	private abstract function createBackground():Void;
 
 	private abstract function onStageEnd():Void;
 }
