@@ -2,10 +2,12 @@ package;
 
 import credits.CreditsSubState;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.text.FlxText;
 import score.Score;
 import score.ScoreClient;
 import stage.SwingSwingKK;
+import ui.BasicTextButton;
 import ui.Button;
 import ui.ScoreLine;
 import ui.TextButton;
@@ -15,8 +17,19 @@ import stage.DevStage;
 
 class MenuState extends AbstractGraveyardState
 {
+	private static var TRACK_LIST = [
+		{
+			title: "Swing Swing",
+			artist: "kk",
+			state: SwingSwingKK.new
+		}
+	];
+
 	private var scoreLines:List<ScoreLine>;
 	private var showScores:Button;
+	private var trackSelectionIndex:Int;
+	private var trackTitle:FlxText;
+	private var trackArtist:FlxText;
 
 	override function create()
 	{
@@ -57,12 +70,70 @@ class MenuState extends AbstractGraveyardState
 		credits.x = 20;
 		credits.y = Main.HEIGHT - credits.height - 20;
 		add(credits);
+
+		var trackSelectBackground = new FlxSprite(611, 20, AssetPaths.bg_menu__jpg);
+		add(trackSelectBackground);
+
+		var trackSelectBack = new BasicTextButton("<", 84, function()
+		{
+			setTrackRelative(-1);
+		}, 0xFF000000);
+		trackSelectBack.x = 650;
+		trackSelectBack.y = 35;
+		trackSelectBack.angle = Layout.BOARD_ANGLE;
+		add(trackSelectBack);
+
+		var trackSelectForward = new BasicTextButton(">", 84, function()
+		{
+			setTrackRelative(1);
+		}, 0xFF000000);
+		trackSelectForward.x = 1282;
+		trackSelectForward.y = 21;
+		trackSelectForward.angle = Layout.BOARD_ANGLE;
+		add(trackSelectForward);
+
+		trackTitle = new FlxText(714, 46, 570, "");
+		trackTitle.setFormat(AssetPaths.PermanentMarker__ttf, 40, 0xFF000000, FlxTextAlign.CENTER);
+		trackTitle.angle = Layout.BOARD_ANGLE;
+		add(trackTitle);
+
+		trackArtist = new FlxText(713, 93, 570, "");
+		trackArtist.setFormat(AssetPaths.PermanentMarker__ttf, 36, 0xFF000000, FlxTextAlign.CENTER);
+		trackArtist.angle = Layout.BOARD_ANGLE;
+		add(trackArtist);
+
+		setTrack(0);
+	}
+
+	private function setTrack(idx:Int)
+	{
+		trackSelectionIndex = idx;
+		trackTitle.text = TRACK_LIST[trackSelectionIndex].title;
+		trackArtist.text = TRACK_LIST[trackSelectionIndex].artist;
+	}
+
+	private function setTrackRelative(idxr:Int)
+	{
+		var sel = trackSelectionIndex + idxr;
+
+		if (sel < 0)
+		{
+			sel = TRACK_LIST.length - 1;
+		}
+
+		if (sel >= TRACK_LIST.length)
+		{
+			sel = 0;
+		}
+
+		setTrack(sel);
 	}
 
 	private function onPlayClicked()
 	{
 		FlxG.sound.destroy(true);
-		FlxG.switchState(new SwingSwingKK());
+
+		FlxG.switchState(TRACK_LIST[trackSelectionIndex].state());
 	}
 
 	private function reloadScores()
