@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import score.Score;
 import score.ScoreClient;
 import stage.SwingSwingKK;
+import stage.SwingSwingKKHard;
 import ui.BasicTextButton;
 import ui.Button;
 import ui.ScoreLine;
@@ -21,12 +22,20 @@ class MenuState extends AbstractGraveyardState
 		{
 			title: "Swing Swing",
 			artist: "kk",
-			state: SwingSwingKK.new
+			state: SwingSwingKK.new,
+			score: SwingSwingKK.SCORE_BOARD
+		},
+		{
+			title: "Swing Swing (hard)",
+			artist: "kk",
+			state: SwingSwingKKHard.new,
+			score: SwingSwingKKHard.SCORE_BOARD
 		}
 	];
 
-	private var scoreLines:List<ScoreLine>;
+	private var scoreLinesMap:Map<String, List<ScoreLine>>;
 	private var showScores:Button;
+	private var showingScores:Bool = false;
 	private var trackSelectionIndex:Int;
 	private var trackTitle:FlxText;
 	private var trackArtist:FlxText;
@@ -55,7 +64,7 @@ class MenuState extends AbstractGraveyardState
 		scoreHeader.x = (scoreHeader.width > Main.WIDTH / 4) ? Main.WIDTH - scoreHeader.width : Main.WIDTH - Main.WIDTH / 4;
 		add(scoreHeader);
 
-		scoreLines = new List<ScoreLine>();
+		scoreLinesMap = new Map<String, List<ScoreLine>>();
 
 		showScores = new TextButton("Show Scores", 48, function()
 		{
@@ -110,6 +119,11 @@ class MenuState extends AbstractGraveyardState
 		trackSelectionIndex = idx;
 		trackTitle.text = TRACK_LIST[trackSelectionIndex].title;
 		trackArtist.text = TRACK_LIST[trackSelectionIndex].artist;
+
+		if (showingScores)
+		{
+			reloadScores();
+		}
 	}
 
 	private function setTrackRelative(idxr:Int)
@@ -138,7 +152,27 @@ class MenuState extends AbstractGraveyardState
 
 	private function reloadScores()
 	{
-		ScoreClient.listScores(function(list:Array<Score>)
+		showingScores = true;
+
+		var board = TRACK_LIST[trackSelectionIndex].score;
+
+		for (kv in scoreLinesMap.keyValueIterator())
+		{
+			for (i in kv.value)
+			{
+				i.visible = kv.key == board;
+			}
+		}
+
+		if (scoreLinesMap.exists(board))
+		{
+			return;
+		}
+
+		var scoreLines = new List<ScoreLine>();
+		scoreLinesMap[board] = scoreLines;
+
+		ScoreClient.listScores(board, function(list:Array<Score>)
 		{
 			for (s in scoreLines)
 			{

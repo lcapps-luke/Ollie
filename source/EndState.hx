@@ -9,15 +9,17 @@ import ui.TextButton;
 
 class EndState extends AbstractGraveyardState
 {
+	private var board:String;
 	private var score:Int;
 	private var token:String = null;
 
 	private var nameInput:FlxInputText;
 	private var submitClicked:Bool = false;
 
-	public function new(score:Int, token:String)
+	public function new(board:String, score:Int, token:String)
 	{
 		super();
+		this.board = board;
 		this.score = score;
 		this.token = token;
 	}
@@ -78,7 +80,7 @@ class EndState extends AbstractGraveyardState
 			Main.SAVE.data.name = sanName;
 			Main.SAVE.flush();
 
-			ScoreClient.submit(token, sanName, score, function(success:Bool)
+			ScoreClient.submit(board, token, sanName, score, function(success:Bool)
 			{
 				if (success)
 				{

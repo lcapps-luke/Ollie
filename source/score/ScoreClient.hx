@@ -7,12 +7,12 @@ import haxe.Json;
 
 class ScoreClient
 {
-	private static inline var root:String = "https://score.lc-apps.co.uk/ollie";
+	private static inline var root:String = "https://score.lc-apps.co.uk/";
 
-	public static function getToken(callback:String->Void):Void
+	public static function getToken(board:String, callback:String->Void):Void
 	{
 		var request = new HttpRequest({
-			url: '$root/token',
+			url: '$root$board/token',
 			callback: function(response:HttpResponse)
 			{
 				callback(response.toText());
@@ -26,10 +26,10 @@ class ScoreClient
 		request.send();
 	}
 
-	public static function submit(token:String, name:String, score:Int, callback:Bool->Void):Void
+	public static function submit(board:String, token:String, name:String, score:Int, callback:Bool->Void):Void
 	{
 		var request = new HttpRequest({
-			url: '$root',
+			url: '$root$board',
 			method: "POST",
 			contentType: "application/json",
 			content: Json.stringify({
@@ -47,12 +47,12 @@ class ScoreClient
 		request.send();
 	}
 
-	public static function listScores(callback:Array<Score>->Void):Void
+	public static function listScores(board:String, callback:Array<Score>->Void):Void
 	{
 		var fromDate = StringTools.urlEncode((DateTime.now() - Day(30)).toString());
 
 		var request = new HttpRequest({
-			url: '$root?from=$fromDate',
+			url: '$root$board?from=$fromDate',
 			callback: function(response:HttpResponse)
 			{
 				callback(cast response.toJson());

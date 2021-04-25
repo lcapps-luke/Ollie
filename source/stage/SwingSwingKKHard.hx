@@ -3,9 +3,9 @@ package stage;
 import flixel.FlxG;
 import score.ScoreClient;
 
-class SwingSwingKK extends AbstractScriptedStageState
+class SwingSwingKKHard extends AbstractScriptedStageState
 {
-	public static inline var SCORE_BOARD:String = "ollie";
+	public static inline var SCORE_BOARD:String = "ollie_hard";
 	private static inline var END_TIME_FADE:Int = 138315;
 	private static inline var END_TIME_SWAP:Int = END_TIME_FADE + 3000;
 
@@ -13,7 +13,7 @@ class SwingSwingKK extends AbstractScriptedStageState
 
 	public function new()
 	{
-		super(AssetPaths.swing_swing__ogg, AssetPaths.swing_swing_kk_normal__txt, END_TIME_FADE, END_TIME_SWAP);
+		super(AssetPaths.swing_swing__ogg, AssetPaths.swing_swing_kk_hard__txt, END_TIME_FADE, END_TIME_SWAP);
 	}
 
 	override function create()
@@ -26,7 +26,7 @@ class SwingSwingKK extends AbstractScriptedStageState
 		});
 	}
 
-	private function onStageEnd()
+	function onStageEnd()
 	{
 		FlxG.switchState(new EndState(SCORE_BOARD, score, token));
 	}
