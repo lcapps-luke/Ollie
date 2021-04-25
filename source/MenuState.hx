@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 import score.Score;
 import score.ScoreClient;
+import stage.SwingSwingKK;
 import ui.Button;
 import ui.ScoreLine;
 import ui.TextButton;
@@ -48,7 +49,7 @@ class MenuState extends AbstractGraveyardState
 	private function onPlayClicked()
 	{
 		FlxG.sound.destroy(true);
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(new SwingSwingKK());
 	}
 
 	private function reloadScores()
