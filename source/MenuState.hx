@@ -9,6 +9,9 @@ import stage.SwingSwingKK;
 import ui.Button;
 import ui.ScoreLine;
 import ui.TextButton;
+#if debug
+import stage.DevStage;
+#end
 
 class MenuState extends AbstractGraveyardState
 {
@@ -23,6 +26,16 @@ class MenuState extends AbstractGraveyardState
 		playButton.x = Main.WIDTH / 2 - playButton.width / 2;
 		playButton.y = Main.HEIGHT / 2 - playButton.height / 2;
 		add(playButton);
+
+		#if debug
+		var dev = new TextButton("Dev", 60, function()
+		{
+			FlxG.switchState(new DevStage());
+		});
+		dev.x = playButton.x + playButton.width;
+		dev.y = Main.HEIGHT / 2 - dev.height / 2;
+		add(dev);
+		#end
 
 		var scoreHeader = new FlxText(0, 16, 0, "Recent Highscores");
 		scoreHeader.setFormat(AssetPaths.PermanentMarker__ttf, 48, 0xFFFFFFFF);
