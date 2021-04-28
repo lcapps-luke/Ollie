@@ -46,7 +46,6 @@
 	<!--<haxelib name="nape-haxe4" />-->
 
 	<haxelib name="datetime"/>
-	<haxelib name="akifox-asynchttp"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
