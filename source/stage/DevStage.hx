@@ -44,6 +44,48 @@ class DevStage extends AbstractStageState
 			var dur = (pos - rightDown) / 1000;
 			trace('$rightDown - $pos [$dur]');
 		}
+
+		if (FlxG.keys.anyJustReleased([ONE]))
+		{
+			scrubMusic(0.1);
+		}
+		if (FlxG.keys.anyJustReleased([TWO]))
+		{
+			scrubMusic(0.2);
+		}
+		if (FlxG.keys.anyJustReleased([THREE]))
+		{
+			scrubMusic(0.3);
+		}
+		if (FlxG.keys.anyJustReleased([FOUR]))
+		{
+			scrubMusic(0.4);
+		}
+		if (FlxG.keys.anyJustReleased([FIVE]))
+		{
+			scrubMusic(0.5);
+		}
+		if (FlxG.keys.anyJustReleased([SIX]))
+		{
+			scrubMusic(0.6);
+		}
+		if (FlxG.keys.anyJustReleased([SEVEN]))
+		{
+			scrubMusic(0.7);
+		}
+		if (FlxG.keys.anyJustReleased([EIGHT]))
+		{
+			scrubMusic(0.8);
+		}
+		if (FlxG.keys.anyJustReleased([NINE]))
+		{
+			scrubMusic(0.9);
+		}
+	}
+
+	private function scrubMusic(pos:Float)
+	{
+		FlxG.sound.music.time = FlxG.sound.music.length * pos;
 	}
 
 	private function onStageEnd()
