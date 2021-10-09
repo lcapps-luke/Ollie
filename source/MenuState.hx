@@ -9,6 +9,7 @@ import flixel.FlxSprite;
 import flixel.text.FlxText;
 import score.Score;
 import score.ScoreClient;
+import stage.SwingSwingEdm;
 import stage.SwingSwingKK;
 import stage.SwingSwingKKHard;
 import ui.BasicTextButton;
@@ -33,6 +34,12 @@ class MenuState extends AbstractGraveyardState
 			artist: "kk",
 			state: SwingSwingKKHard.new,
 			score: SwingSwingKKHard.SCORE_BOARD
+		},
+		{
+			title: "Swing Swing (EDM Remix)",
+			artist: "Jair D",
+			state: SwingSwingEdm.new,
+			score: SwingSwingEdm.SCORE_BOARD
 		}
 	];
 
