@@ -93,7 +93,8 @@ abstract class AbstractStageState extends AbstractGraveyardState
 		if (FlxG.sound.music.time > endFade && !end)
 		{
 			end = true;
-			FlxG.sound.music.fadeOut(3, 0.25);
+			var fadeTime = (endSwap - endFade) / 1000;
+			FlxG.sound.music.fadeOut(fadeTime, 0.25);
 		}
 		if (FlxG.sound.music.time > endSwap)
 		{

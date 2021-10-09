@@ -52,13 +52,6 @@ class CreditsSubState extends FlxSubState
 		kk.y = yAcc;
 		add(kk);
 
-		yAcc += CreditLine.SIZE;
-		var jd = new CreditLine("'Swing Swing EDM Remix' by Jair D");
-		jd.addLink("https://www.youtube.com/watch?v=9-j-RBGrHVM", AssetPaths.yt_icon__png);
-		jd.x = 40;
-		jd.y = yAcc;
-		add(kk);
-
 		yAcc += CreditLine.SIZE * 4;
 		coverLink = new FlxText();
 		coverLink.setFormat(AssetPaths.PermanentMarker__ttf, CreditLine.SIZE, 0xFFFFFFFF);

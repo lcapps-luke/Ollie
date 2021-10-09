@@ -1,5 +1,7 @@
 package;
 
+import birthday.BirthdayOverlay;
+import birthday.BirthdayUtils;
 import credits.CreditsSubState;
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -116,6 +118,11 @@ class MenuState extends AbstractGraveyardState
 		add(trackArtist);
 
 		setTrack(trackSelectionIndex);
+
+		if (BirthdayUtils.isBirthday())
+		{
+			add(new BirthdayOverlay(this));
+		}
 	}
 
 	override function update(elapsed:Float)
