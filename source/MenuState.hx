@@ -1,6 +1,7 @@
 package;
 
 import credits.CreditsSubState;
+import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -40,6 +41,8 @@ class MenuState extends AbstractGraveyardState
 	private var showingScores:Bool = false;
 	private var trackTitle:FlxText;
 	private var trackArtist:FlxText;
+
+	private var toAdd:Array<FlxBasic> = null;
 
 	override function create()
 	{
@@ -115,6 +118,19 @@ class MenuState extends AbstractGraveyardState
 		setTrack(trackSelectionIndex);
 	}
 
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (toAdd != null)
+		{
+			for (a in toAdd)
+			{
+				add(a);
+			}
+		}
+	}
+
 	private function setTrack(idx:Int)
 	{
 		trackSelectionIndex = idx;
@@ -184,6 +200,8 @@ class MenuState extends AbstractGraveyardState
 
 			var names:Array<String> = new Array<String>();
 
+			var newLines = new Array<FlxBasic>();
+
 			var yy:Float = 72;
 			for (i in list)
 			{
@@ -196,7 +214,7 @@ class MenuState extends AbstractGraveyardState
 				s.x = Main.WIDTH - Main.WIDTH / 4;
 				s.y = yy;
 				scoreLines.add(s);
-				add(s);
+				newLines.push(s);
 
 				names.push(i.name);
 
@@ -206,6 +224,8 @@ class MenuState extends AbstractGraveyardState
 					break;
 				}
 			}
+
+			toAdd = newLines;
 		});
 	}
 
