@@ -18,12 +18,12 @@ class SwingSwingKK extends AbstractScriptedStageState
 
 	override function create()
 	{
-		super.create();
-
 		ScoreClient.getToken(SCORE_BOARD, function(t)
 		{
 			token = t;
 		});
+
+		super.create();
 	}
 
 	private function onStageEnd()

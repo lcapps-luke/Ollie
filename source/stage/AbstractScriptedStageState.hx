@@ -119,13 +119,13 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 
 	public function onTargetHit(good:Bool)
 	{
-		if (!good)
+		if (good)
 		{
-			combo = 0;
+			combo++;
 		}
 		else
 		{
-			combo++;
+			combo = 0;
 		}
 
 		var bonus = combo > 1 ? Math.floor(100 * (combo * COMBO_MULTIPLIER)) : 0;

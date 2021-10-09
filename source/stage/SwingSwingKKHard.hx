@@ -18,15 +18,15 @@ class SwingSwingKKHard extends AbstractScriptedStageState
 
 	override function create()
 	{
-		super.create();
-
 		ScoreClient.getToken(SCORE_BOARD, function(t)
 		{
 			token = t;
 		});
+
+		super.create();
 	}
 
-	function onStageEnd()
+	private function onStageEnd()
 	{
 		FlxG.switchState(new EndState(SCORE_BOARD, score, token));
 	}
