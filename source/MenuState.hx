@@ -33,10 +33,11 @@ class MenuState extends AbstractGraveyardState
 		}
 	];
 
+	private static var trackSelectionIndex:Int = 0;
+
 	private var scoreLinesMap:Map<String, List<ScoreLine>>;
 	private var showScores:Button;
 	private var showingScores:Bool = false;
-	private var trackSelectionIndex:Int;
 	private var trackTitle:FlxText;
 	private var trackArtist:FlxText;
 
@@ -111,7 +112,7 @@ class MenuState extends AbstractGraveyardState
 		trackArtist.angle = Layout.BOARD_ANGLE;
 		add(trackArtist);
 
-		setTrack(0);
+		setTrack(trackSelectionIndex);
 	}
 
 	private function setTrack(idx:Int)
