@@ -4,10 +4,10 @@ import flixel.FlxG;
 
 class DevStage extends AbstractStageState
 {
-	private static inline var TRACK:String = AssetPaths.swing_swing__ogg;
-	private static inline var START:Int = 1; // 8339;
-	private static inline var END_FADE:Int = 138315;
-	private static inline var END_SWAP:Int = END_FADE + 3000;
+	private static inline var TRACK:String = AssetPaths.swing_swing_edm__ogg;
+	private static inline var START:Int = 6139; // 8339;
+	private static inline var END_FADE:Int = 173170;
+	private static inline var END_SWAP:Int = END_FADE + 1000;
 
 	private var rightDown:Int = 0;
 
