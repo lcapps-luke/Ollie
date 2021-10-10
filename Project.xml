@@ -30,7 +30,7 @@ xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
-	<classpath name="source" />
+	<classpath name="source" path="source"/>
 	<assets path="assets" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
