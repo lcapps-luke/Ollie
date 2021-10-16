@@ -90,7 +90,7 @@ class EndState extends AbstractGraveyardState
 				{
 					submitClicked = false;
 				}
-			});
+			}, Main.ITCH_USER_ID);
 		}
 	}
 

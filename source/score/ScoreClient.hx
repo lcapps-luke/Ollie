@@ -2,6 +2,7 @@ package score;
 
 import datetime.DateTime;
 import haxe.Json;
+import haxe.crypto.Md5;
 
 class ScoreClient
 {
@@ -26,7 +27,7 @@ class ScoreClient
 		});
 	}
 
-	public static function submit(board:String, token:String, name:String, score:Int, callback:Bool->Void):Void
+	public static function submit(board:String, token:String, name:String, score:Int, callback:Bool->Void, itchUserId:String = null):Void
 	{
 		client.post({
 			url: '$root$board',
@@ -36,7 +37,8 @@ class ScoreClient
 				token: token,
 				value: score,
 				name: name,
-				proof: null
+				proof: Md5.encode(token + name),
+				itchUserId: itchUserId
 			}),
 			success: (status:Int, content:String) ->
 			{

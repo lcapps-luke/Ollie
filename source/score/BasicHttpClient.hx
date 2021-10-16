@@ -10,7 +10,7 @@ class BasicHttpClient implements IHttpClient
 	public function get(inf:HttpRequestInfo)
 	{
 		var req = new Http(inf.url);
-		#if js
+		#if html5
 		req.async = true;
 		#end
 
@@ -28,7 +28,7 @@ class BasicHttpClient implements IHttpClient
 	public function post(inf:HttpRequestInfo)
 	{
 		var req = new Http(inf.url);
-		#if js
+		#if html5
 		req.async = true;
 		#end
 

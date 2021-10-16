@@ -224,7 +224,7 @@ class MenuState extends AbstractGraveyardState
 					continue;
 				}
 
-				var s = new ScoreLine(i.name, i.value);
+				var s = new ScoreLine(i.name, i.value, i.supporter);
 				s.x = Main.WIDTH - Main.WIDTH / 4;
 				s.y = yy;
 				scoreLines.add(s);

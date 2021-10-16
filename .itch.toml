@@ -1,0 +1,5 @@
+[[actions]]
+name = "play"
+path = "Ollie.exe"
+platform = "windows"
+scope = "profile:me"
