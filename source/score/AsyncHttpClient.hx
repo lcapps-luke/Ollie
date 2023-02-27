@@ -1,6 +1,5 @@
 package score;
 
-import haxe.CallStack;
 import score.IHttpClient.HttpRequestInfo;
 import sys.Http;
 import sys.thread.Mutex;

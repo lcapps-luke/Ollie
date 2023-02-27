@@ -31,7 +31,9 @@ class ItchUtilities
 		{
 			return Syntax.code("Itch.env.ITCHIO_API_KEY");
 		}
-		#else
+		#end
+
+		#if !android
 		return Sys.getEnv("ITCHIO_API_KEY");
 		#end
 

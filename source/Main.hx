@@ -32,7 +32,7 @@ class Main extends Sprite
 
 	private function initGame()
 	{
-		addChild(new FlxGame(WIDTH, HEIGHT, MenuState, 1, 60, 60, true));
+		addChild(new FlxGame(WIDTH, HEIGHT, MenuState, 60, 60, true));
 		FlxG.autoPause = false;
 	}
 

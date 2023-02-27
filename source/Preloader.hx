@@ -1,7 +1,6 @@
 package;
 
 import flixel.system.FlxBasePreloader;
-import flixel.system.FlxPreloader;
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
