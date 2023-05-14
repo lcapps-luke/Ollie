@@ -2,8 +2,10 @@ package credits;
 
 import flixel.FlxSubState;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import openfl.Lib;
 import openfl.net.URLRequest;
+import ui.BasicButton;
 import ui.InteractionUtils;
 import ui.TextButton;
 
@@ -12,6 +14,7 @@ class CreditsSubState extends FlxSubState
 	private var coverLink:FlxText = null;
 	private var coverLinkHover:Bool = false;
 	private var urlHover:FlxTextFormat;
+	private var coverButton:BasicButton;
 
 	public function new()
 	{
@@ -70,7 +73,11 @@ class CreditsSubState extends FlxSubState
 		coverLink.x = 40;
 		coverLink.y = yAcc;
 
-		add(coverLink);
+		coverButton = new BasicButton(coverLink, onCoverLink);
+		coverButton.x = 40;
+		coverButton.y = yAcc;
+		coverButton.normalAlpha = 1;
+		add(coverButton);
 
 		var closeBtn = new TextButton("Close", 60, () ->
 		{
@@ -90,23 +97,23 @@ class CreditsSubState extends FlxSubState
 			return;
 		}
 
-		var interact = InteractionUtils.wasClicked(coverLink.getHitbox());
+		var interact = coverButton.status;
 
-		if (interact == OVER && !coverLinkHover)
+		if (interact != FlxButton.NORMAL && !coverLinkHover)
 		{
 			coverLink.addFormat(urlHover, 92, 139);
 			coverLinkHover = true;
 		}
 
-		if (interact == CLICK)
-		{
-			Lib.getURL(new URLRequest("https://en.hololive.tv/terms"), "_blank");
-		}
-
-		if (interact == NONE && coverLinkHover)
+		if (interact == FlxButton.NORMAL && coverLinkHover)
 		{
 			coverLink.removeFormat(urlHover);
 			coverLinkHover = false;
 		}
+	}
+
+	private function onCoverLink()
+	{
+		Lib.getURL(new URLRequest("https://en.hololive.tv/terms"), "_blank");
 	}
 }

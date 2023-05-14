@@ -1,33 +1,35 @@
 package ui;
 
 import flixel.FlxSprite;
-import flixel.group.FlxSpriteGroup;
+import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 
-class BasicButton extends FlxSpriteGroup
+class BasicButton extends FlxTypedButton<FlxSprite>
 {
-	private var callback:Void->Void;
-	private var spr:FlxSprite;
+	public var normalAlpha:Float = 0.8;
 
 	public function new(spr:FlxSprite, callback:Void->Void)
 	{
-		super();
+		super(0, 0, callback);
+		this.label = spr;
+		labelAlphas = [1, 1, 1];
 
-		this.callback = callback;
-
-		this.spr = spr;
-		add(spr);
+		makeButtonGraphic();
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		this.alpha = this.status == FlxButton.NORMAL ? normalAlpha : 1;
+	}
 
-		var interact = InteractionUtils.wasClicked(this.getHitbox());
-		this.alpha = interact == OVER ? 1 : 0.8;
+	private function makeButtonGraphic()
+	{
+		makeGraphic(Math.ceil(this.label.width), Math.ceil(this.label.height), FlxColor.TRANSPARENT);
+	}
 
-		if (interact == CLICK)
-		{
-			callback();
-		}
+	override function loadDefaultGraphic()
+	{
+		// remove default behaviour
 	}
 }

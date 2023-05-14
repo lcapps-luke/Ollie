@@ -48,6 +48,7 @@ class EndState extends AbstractGraveyardState
 		nameInput.maxLength = Main.NAME_MAX_LENGTH;
 		nameInput.x = Main.WIDTH / 8;
 		nameInput.y = Main.HEIGHT / 2 - nameInput.height / 2;
+		nameInput.textField.needsSoftKeyboard = true;
 		nameInput.hasFocus = true;
 		add(nameInput);
 

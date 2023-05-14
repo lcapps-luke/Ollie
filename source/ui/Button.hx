@@ -1,9 +1,9 @@
 package ui;
 
 import flixel.FlxSprite;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-
-using flixel.util.FlxSpriteUtil;
+import flixel.util.FlxSpriteUtil;
 
 class Button extends BasicButton
 {
@@ -13,14 +13,18 @@ class Button extends BasicButton
 	{
 		super(spr, callback);
 
-		spr.x = PADDING;
-		spr.y = PADDING;
+		labelOffsets[0].set(PADDING, PADDING);
+		labelOffsets[1].set(PADDING, PADDING);
+		labelOffsets[2].set(PADDING, PADDING);
+	}
 
-		var back = new FlxSprite();
-		back.makeGraphic(Math.ceil(spr.width + PADDING * 2), Math.ceil(spr.height + PADDING * 2), FlxColor.TRANSPARENT, true);
-		add(back);
+	override function makeButtonGraphic()
+	{
+		var width = Math.ceil(this.label.width + PADDING * 2);
+		var height = Math.ceil(this.label.height + PADDING * 2);
 
-		back.drawRect(0, 0, back.width, back.height, FlxColor.TRANSPARENT, {
+		makeGraphic(width, height, FlxColor.TRANSPARENT, true);
+		FlxSpriteUtil.drawRect(this, 0, 0, width, height, FlxColor.TRANSPARENT, {
 			thickness: 20,
 			color: FlxColor.WHITE
 		});
