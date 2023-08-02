@@ -6,7 +6,6 @@ import flixel.ui.FlxButton;
 import openfl.Lib;
 import openfl.net.URLRequest;
 import ui.BasicButton;
-import ui.InteractionUtils;
 import ui.TextButton;
 
 class CreditsSubState extends FlxSubState

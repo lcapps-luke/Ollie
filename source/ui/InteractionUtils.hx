@@ -59,18 +59,18 @@ class InteractionUtils
 		return false;
 	}
 
-	public static function clickPoint():FlxPoint
+	public static function clickPoint(?point:FlxPoint):FlxPoint
 	{
 		#if !FLX_NO_TOUCH
 		var touch = FlxG.touches.getFirst();
 		if (touch != null)
 		{
-			return touch.getPosition();
+			return touch.getPosition(point);
 		}
 		#end
 
 		#if !FLX_NO_MOUSE
-		return FlxG.mouse.getPosition();
+		return FlxG.mouse.getPosition(point);
 		#end
 
 		return FlxPoint.get();

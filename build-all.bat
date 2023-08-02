@@ -1,3 +1,3 @@
-lime build html5 -clean
-lime build neko -clean
-lime build windows -clean
+lime build html5 -clean -final
+lime build neko -clean -final
+lime build windows -clean -final

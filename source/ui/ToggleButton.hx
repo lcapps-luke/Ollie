@@ -2,8 +2,6 @@ package ui;
 
 import flixel.FlxSprite;
 
-using flixel.util.FlxSpriteUtil;
-
 class ToggleButton extends Button
 {
 	public var checked(default, set):Bool = true;

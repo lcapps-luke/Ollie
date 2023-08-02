@@ -1,7 +1,6 @@
 package ui;
 
 import flixel.FlxSprite;
-import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 

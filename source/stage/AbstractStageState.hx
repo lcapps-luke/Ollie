@@ -84,6 +84,8 @@ abstract class AbstractStageState extends AbstractGraveyardState
 			FlxG.sound.music.onComplete = sndRetry;
 		}
 		FlxG.sound.music.onComplete = sndRetry;
+
+		add(new Hammer());
 	}
 
 	override public function update(elapsed:Float)
