@@ -14,11 +14,11 @@ class BirthdayOverlay extends FlxSpriteGroup
 	{
 		super();
 
-		var text:FlxText = new FlxText(0, 0, 0, "HAPPY BIRTHDAY!");
-		text.setFormat(AssetPaths.PermanentMarker__ttf, 96, 0xFF0000, null, OUTLINE, 0xFFFFA600);
+		var text:FlxText = new FlxText(0, 0, 0, "HAPPY BIRTHDAY OLLIE!");
+		text.setFormat(AssetPaths.PermanentMarker__ttf, 60, 0xFF0000, null, OUTLINE, 0xFFFFA600);
 		text.borderSize = 3;
-		text.x = Main.WIDTH / 2 - text.width / 2;
-		text.y = Main.HEIGHT / 3 - 96;
+		text.x = Main.WIDTH / 2 - text.width / 2 + 35;
+		text.y = 50;
 		add(text);
 
 		var emitter = new FlxEmitter(0, -PART_MAX_SIZE, 0);

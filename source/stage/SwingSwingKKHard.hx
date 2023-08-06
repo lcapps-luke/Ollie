@@ -28,7 +28,7 @@ class SwingSwingKKHard extends AbstractScriptedStageState
 
 	private function onStageEnd()
 	{
-		Main.updateStageData(SCORE_BOARD, this.perfect);
+		Main.updateStageData(SCORE_BOARD, this.perfect, score);
 		FlxG.switchState(new EndState(SCORE_BOARD, score, token));
 	}
 }

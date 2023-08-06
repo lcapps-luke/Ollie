@@ -20,11 +20,11 @@ class MainMenuButton extends FlxTypedGroup<FlxObject>
 
 	private var region:FlxClickArea;
 	private var label:FlxText;
-	private var extra:FlxText;
 
 	private var wobblePhase:Float = FlxG.random.float(0, Math.PI);
 	private var spriteY:Float = 0;
 
+	private var sprite:FlxSprite;
 	private var focusEffect:FlxEffectSprite;
 
 	public function new(spr:FlxGraphicAsset, name:String, x:Float, y:Float, callback:Void->Void)
@@ -32,7 +32,7 @@ class MainMenuButton extends FlxTypedGroup<FlxObject>
 		super();
 		spriteY = y;
 
-		var sprite = new FlxSprite(x, y, spr);
+		sprite = new FlxSprite(x, y, spr);
 		focusEffect = new FlxEffectSprite(sprite, [new FlxOutlineEffect(NORMAL, FlxColor.WHITE, 5)]);
 		focusEffect.setPosition(x, y);
 		add(focusEffect);

@@ -9,4 +9,5 @@ typedef StageData =
 {
 	var complete:Bool;
 	var perfect:Bool;
+	var best:Int;
 }

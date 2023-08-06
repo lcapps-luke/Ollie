@@ -3,6 +3,7 @@ package;
 import SaveData.StageData;
 import flixel.FlxG;
 import flixel.FlxGame;
+import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import itch.ItchUtilities;
 import openfl.display.Sprite;
@@ -48,7 +49,7 @@ class Main extends Sprite
 		}
 	}
 
-	public static function updateStageData(name:String, perfect:Bool)
+	public static function updateStageData(name:String, perfect:Bool, score:Int)
 	{
 		var p:SaveData = SAVE.data.progress;
 
@@ -65,7 +66,8 @@ class Main extends Sprite
 		{
 			data = {
 				complete: true,
-				perfect: perfect
+				perfect: perfect,
+				best: score
 			};
 			p.stage.set(name, data);
 		}
@@ -73,8 +75,20 @@ class Main extends Sprite
 		{
 			data.complete = true;
 			data.perfect = data.perfect || perfect;
+			data.best = FlxMath.maxInt(data.best, score);
 		}
 
 		SAVE.flush();
+	}
+
+	public static function getStageData(name:String):Null<StageData>
+	{
+		var p:SaveData = SAVE.data.progress;
+		if (p != null)
+		{
+			return p.stage.get(name);
+		}
+
+		return null;
 	}
 }
