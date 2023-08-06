@@ -25,6 +25,8 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 	private var nextCue:Cue = null;
 	private var nextCueIndex = 0;
 
+	private var perfect = true;
+
 	public function new(track:String, script:String, endFade:Int, endSwap:Int)
 	{
 		// load cues
@@ -128,6 +130,7 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 		{
 			combo = 0;
 			FlxG.sound.play(AssetPaths.miss__wav);
+			perfect = false;
 		}
 
 		var bonus = combo > 1 ? Math.floor(100 * (combo * COMBO_MULTIPLIER)) : 0;
@@ -152,6 +155,8 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 
 		combo = 0;
 		updateScoreboard();
+
+		perfect = false;
 	}
 
 	private function updateScoreboard()

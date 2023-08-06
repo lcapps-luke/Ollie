@@ -1,5 +1,6 @@
 package;
 
+import SaveData.StageData;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.util.FlxSave;
@@ -45,5 +46,35 @@ class Main extends Sprite
 			Main.SAVE.data.name = name;
 			Main.SAVE.flush();
 		}
+	}
+
+	public static function updateStageData(name:String, perfect:Bool)
+	{
+		var p:SaveData = SAVE.data.progress;
+
+		if (p == null)
+		{
+			p = {
+				stage: new Map<String, StageData>()
+			};
+			SAVE.data.progress = p;
+		}
+
+		var data = p.stage.get(name);
+		if (data == null)
+		{
+			data = {
+				complete: true,
+				perfect: perfect
+			};
+			p.stage.set(name, data);
+		}
+		else
+		{
+			data.complete = true;
+			data.perfect = data.perfect || perfect;
+		}
+
+		SAVE.flush();
 	}
 }
