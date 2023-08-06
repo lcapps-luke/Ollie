@@ -122,10 +122,12 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 		if (good)
 		{
 			combo++;
+			FlxG.sound.play(AssetPaths.hit__wav);
 		}
 		else
 		{
 			combo = 0;
+			FlxG.sound.play(AssetPaths.miss__wav);
 		}
 
 		var bonus = combo > 1 ? Math.floor(100 * (combo * COMBO_MULTIPLIER)) : 0;
