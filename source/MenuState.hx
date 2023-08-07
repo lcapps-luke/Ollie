@@ -55,14 +55,14 @@ class MenuState extends AbstractGraveyardState
 		var creditsButton = new MainMenuButton(AssetPaths.btn_credits__png, "Credits", 1450, 510, onCreditsClicked);
 		add(creditsButton);
 
-		add(new TrackButton(AssetPaths.disk_edm__png, 337, 54, onTrackSelected, {
+		add(new TrackButton(AssetPaths.disk_normal__png, 337, 54, onTrackSelected, {
 			title: "Swing Swing",
 			artist: "kk",
 			state: SwingSwingKK.new,
 			score: SwingSwingKK.SCORE_BOARD
 		}));
 
-		add(new TrackButton(AssetPaths.disk_edm__png, 337, 510, onTrackSelected, {
+		add(new TrackButton(AssetPaths.disk_hard__png, 337, 510, onTrackSelected, {
 			title: "Swing Swing (hard)",
 			artist: "kk",
 			state: SwingSwingKKHard.new,

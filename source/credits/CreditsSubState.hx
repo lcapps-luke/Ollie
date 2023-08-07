@@ -63,6 +63,13 @@ class CreditsSubState extends FlxSubState
 		jd.y = yAcc;
 		add(jd);
 
+		yAcc += CreditLine.SIZE * 2;
+		var da = new CreditLine("EDM Disk Art by Bang telex");
+		da.addLink("https://www.pixiv.net/en/artworks/86105054", AssetPaths.pixiv_icon__png);
+		da.x = 40;
+		da.y = yAcc;
+		add(da);
+
 		yAcc += CreditLine.SIZE * 4;
 		coverLink = new FlxText();
 		coverLink.setFormat(AssetPaths.PermanentMarker__ttf, CreditLine.SIZE, 0xFFFFFFFF);

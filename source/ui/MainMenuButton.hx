@@ -38,7 +38,8 @@ class MainMenuButton extends FlxTypedGroup<FlxObject>
 		add(focusEffect);
 
 		label = new FlxText();
-		label.setFormat(AssetPaths.PermanentMarker__ttf, 30, 0xff000000);
+		label.setFormat(AssetPaths.PermanentMarker__ttf, 30, 0xff000000, null, OUTLINE, 0xffffffff);
+		label.borderSize = 2;
 		label.text = name;
 		label.x = x + sprite.width / 2 - label.width / 2;
 		label.y = y - label.height - 10;

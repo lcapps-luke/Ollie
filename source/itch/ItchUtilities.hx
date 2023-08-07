@@ -33,7 +33,7 @@ class ItchUtilities
 		}
 		#end
 
-		#if !android
+		#if desktop
 		return Sys.getEnv("ITCHIO_API_KEY");
 		#end
 
