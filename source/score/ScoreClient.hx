@@ -56,7 +56,7 @@ class ScoreClient
 		client.get({
 			url: '$root$board',
 			headers: [],
-			params: ["from" => (DateTime.now() - Day(30)).toString()],
+			params: ["from" => (DateTime.now() - Day(182)).toString()],
 			success: (status:Int, content:String) ->
 			{
 				var scores:Array<Score> = cast Json.parse(content);

@@ -3,7 +3,9 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.addons.ui.FlxClickArea;
 import flixel.text.FlxText;
+import flixel.util.FlxTimer;
 import score.Score;
 import score.ScoreClient;
 import ui.ScoreLine;
@@ -13,12 +15,12 @@ import ui.TrackButton.TrackDetails;
 class MenuSelectionSubState extends FlxSubState
 {
 	private static inline var CENTER:Float = 1580;
-	private static var SCORES = new Map<String, List<Score>>();
+	private static var SCORES = new Map<String, Array<Score>>();
 	private static var LOAD_SCORES = false;
 
 	public static function RESET_SCORES()
 	{
-		SCORES = new Map<String, List<Score>>();
+		SCORES = new Map<String, Array<Score>>();
 	}
 
 	private var details:TrackDetails;
@@ -89,6 +91,12 @@ class MenuSelectionSubState extends FlxSubState
 		backButton.x = Main.WIDTH - backButton.width - 5;
 		backButton.y = Main.HEIGHT - backButton.height - 5;
 		add(backButton);
+
+		new FlxTimer().start(0.3, function(t)
+		{
+			var backRegion = new FlxClickArea(0, 0, Main.WIDTH - bg.width, Main.HEIGHT, onBackClicked);
+			add(backRegion);
+		});
 	}
 
 	override function update(elapsed:Float)
@@ -105,7 +113,7 @@ class MenuSelectionSubState extends FlxSubState
 				s.y = yy;
 
 				yy += s.height;
-				if (yy > Main.HEIGHT - s.height - 40)
+				if (yy > Main.HEIGHT - s.height - 20)
 				{
 					break;
 				}
@@ -119,7 +127,7 @@ class MenuSelectionSubState extends FlxSubState
 
 	private function getBestScore():String
 	{
-		if (details.save == null || details.save.best == null || details.save.best < 0)
+		if (details.save == null || details.save.best < 0)
 		{
 			return "-";
 		}
@@ -153,13 +161,11 @@ class MenuSelectionSubState extends FlxSubState
 			return;
 		}
 
-		var scoreLines = new List<Score>();
+		var scoreLines = new Array<Score>();
 		SCORES[details.score] = scoreLines;
 
 		ScoreClient.listScores(details.score, function(list:Array<Score>)
 		{
-			scoreLines.clear();
-
 			if (list == null)
 			{
 				toAdd = [
@@ -175,7 +181,6 @@ class MenuSelectionSubState extends FlxSubState
 			var names:Array<String> = new Array<String>();
 
 			var newLines = new Array<Score>();
-
 			for (i in list)
 			{
 				if (i.name == null || names.contains(i.name))
@@ -183,11 +188,11 @@ class MenuSelectionSubState extends FlxSubState
 					continue;
 				}
 
-				scoreLines.push(i);
 				newLines.push(i);
 				names.push(i.name);
 			}
 
+			SCORES[details.score] = newLines;
 			toAdd = newLines;
 		});
 	}
