@@ -26,8 +26,9 @@ class SwingSwingEdm extends AbstractScriptedStageState
 		super.create();
 	}
 
-	private function onStageEnd()
+	override private function onStageEnd()
 	{
+		super.onStageEnd();
 		Main.updateStageData(SCORE_BOARD, this.perfect, score);
 		FlxG.switchState(new EndState(SCORE_BOARD, score, token));
 	}

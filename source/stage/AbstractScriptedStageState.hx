@@ -92,7 +92,7 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 				{
 					if (count < nextCue.ollie)
 					{
-						target[i].show(nextCue.hold, true, FlxG.random.int(0, 4));
+						target[i].show(nextCue.hold, true);
 					}
 					else if (count < nextCue.ollie + nextCue.udin)
 					{
@@ -169,5 +169,14 @@ abstract class AbstractScriptedStageState extends AbstractStageState
 	{
 		var indicator = hitDisplay.recycle(HitIndicator, HitIndicator.new);
 		return indicator;
+	}
+
+	private function onStageEnd()
+	{
+		if (!Target.PLUSH_SHOWN)
+		{
+			Target.PLUSH_CHANCE *= 4;
+		}
+		Target.PLUSH_SHOWN = false;
 	}
 }
