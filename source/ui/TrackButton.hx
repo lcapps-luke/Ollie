@@ -53,5 +53,6 @@ typedef TrackDetails =
 	var artist:String;
 	var state:Void->FlxState;
 	var score:String;
+	var library:String;
 	var ?save:StageData;
 }

@@ -7,6 +7,7 @@ import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
+import stage.JollieJollieMetal;
 import stage.SwingSwingEdm;
 import stage.SwingSwingKK;
 import stage.SwingSwingKKHard;
@@ -59,21 +60,32 @@ class MenuState extends AbstractGraveyardState
 			title: "Swing Swing",
 			artist: "kk",
 			state: SwingSwingKK.new,
-			score: SwingSwingKK.SCORE_BOARD
+			score: SwingSwingKK.SCORE_BOARD,
+			library: SwingSwingKK.LIBRARY
 		}));
 
 		add(new TrackButton(AssetPaths.disk_hard__png, 337, 510, onTrackSelected, {
 			title: "Swing Swing (hard)",
 			artist: "kk",
 			state: SwingSwingKKHard.new,
-			score: SwingSwingKKHard.SCORE_BOARD
+			score: SwingSwingKKHard.SCORE_BOARD,
+			library: SwingSwingKKHard.LIBRARY
 		}));
 
 		add(new TrackButton(AssetPaths.disk_edm__png, 890, 280, onTrackSelected, {
 			title: "Swing Swing (EDM Remix)",
 			artist: "Jair D",
 			state: SwingSwingEdm.new,
-			score: SwingSwingEdm.SCORE_BOARD
+			score: SwingSwingEdm.SCORE_BOARD,
+			library: SwingSwingEdm.LIBRARY
+		}));
+
+		add(new TrackButton(AssetPaths.disk_metal__png, 877, 730, onTrackSelected, {
+			title: "Jollie Jollie Metal Cover",
+			artist: "Doni Azulef",
+			state: JollieJollieMetal.new,
+			score: JollieJollieMetal.SCORE_BOARD,
+			library: JollieJollieMetal.LIBRARY
 		}));
 
 		if (BirthdayUtils.isBirthday())

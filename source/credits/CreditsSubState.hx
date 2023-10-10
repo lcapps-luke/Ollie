@@ -10,6 +10,8 @@ import ui.TextButton;
 
 class CreditsSubState extends FlxSubState
 {
+	private static inline var CREDIT_PAD = 10;
+
 	private var coverLink:FlxText = null;
 	private var coverLinkHover:Bool = false;
 	private var urlHover:FlxTextFormat;
@@ -54,7 +56,7 @@ class CreditsSubState extends FlxSubState
 		kk.y = yAcc;
 		add(kk);
 
-		yAcc += CreditLine.SIZE;
+		yAcc += CreditLine.SIZE + CREDIT_PAD;
 		var jd = new CreditLine("'Swing Swing EDM Remix' by Jair D");
 		jd.addLink("https://www.youtube.com/watch?v=9-j-RBGrHVM", AssetPaths.yt_icon__png);
 		jd.addLink("https://twitter.com/SakuraMusicLLC", AssetPaths.tw_icon__png);
@@ -63,9 +65,23 @@ class CreditsSubState extends FlxSubState
 		jd.y = yAcc;
 		add(jd);
 
+		yAcc += CreditLine.SIZE + CREDIT_PAD;
+		var mc = new CreditLine("'Jollie Jollie Metal Cover' by Doni Azulef");
+		mc.addLink("https://www.youtube.com/watch?v=yZKGMTMPEE4", AssetPaths.yt_icon__png);
+		mc.x = 40;
+		mc.y = yAcc;
+		add(mc);
+
 		yAcc += CreditLine.SIZE * 2;
 		var da = new CreditLine("EDM Disk Art by Bang telex");
 		da.addLink("https://www.pixiv.net/en/artworks/86105054", AssetPaths.pixiv_icon__png);
+		da.x = 40;
+		da.y = yAcc;
+		add(da);
+
+		yAcc += CreditLine.SIZE + CREDIT_PAD;
+		var da = new CreditLine("Metal Disk Art by berobe6");
+		da.addLink("https://twitter.com/berobe6/status/1513017500094853120", AssetPaths.tw_icon__png);
 		da.x = 40;
 		da.y = yAcc;
 		add(da);

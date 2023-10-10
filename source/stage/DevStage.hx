@@ -4,8 +4,8 @@ import flixel.FlxG;
 
 class DevStage extends AbstractStageState
 {
-	private static inline var TRACK:String = AssetPaths.swing_swing_edm__ogg;
-	private static inline var START:Int = 6139; // 8339;
+	private static var TRACK:String = AssetPaths.makePath(AssetPaths.LIB_MUSIC_METAL, AssetPaths.jollie_jollie_metal__ogg);
+	private static inline var START:Int = 8040; // 8339;
 	private static inline var END_FADE:Int = 173170;
 	private static inline var END_SWAP:Int = END_FADE + 1000;
 
@@ -43,6 +43,11 @@ class DevStage extends AbstractStageState
 		{
 			var dur = (pos - rightDown) / 1000;
 			trace('$rightDown - $pos [$dur]');
+		}
+
+		if (FlxG.keys.anyJustReleased([R]))
+		{
+			scrubMusic(0);
 		}
 
 		if (FlxG.keys.anyJustReleased([ONE]))

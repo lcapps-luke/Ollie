@@ -6,6 +6,8 @@ import flixel.FlxSubState;
 import flixel.addons.ui.FlxClickArea;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
+import openfl.utils.AssetLibrary;
+import openfl.utils.Assets;
 import score.Score;
 import score.ScoreClient;
 import ui.ScoreLine;
@@ -27,6 +29,8 @@ class MenuSelectionSubState extends FlxSubState
 
 	private var showScores:TextButton;
 	private var toAdd:Array<Score> = null;
+
+	private var loadText:FlxText;
 
 	public function new(details:TrackDetails)
 	{
@@ -59,16 +63,18 @@ class MenuSelectionSubState extends FlxSubState
 		artist.y = title.y + 70;
 		add(artist);
 
-		var playButton = new TextButton("Play", 60, onPlayClicked);
-		playButton.x = CENTER - playButton.width / 2;
-		playButton.y = artist.y + 70;
-		add(playButton);
+		loadText = new FlxText();
+		loadText.setFormat(AssetPaths.PermanentMarker__ttf, 50, 0xffffffff);
+		loadText.text = "Loading: 0%";
+		loadText.x = CENTER - loadText.width / 2;
+		loadText.y = artist.y + 70;
+		add(loadText);
 
 		var best = new FlxText();
 		best.text = 'Best Score: ${getBestScore()}';
 		best.setFormat(AssetPaths.PermanentMarker__ttf, 40, 0xffffffff);
 		best.x = CENTER - best.width / 2;
-		best.y = playButton.y + 140;
+		best.y = loadText.y + 140;
 		add(best);
 
 		if (LOAD_SCORES)
@@ -97,6 +103,8 @@ class MenuSelectionSubState extends FlxSubState
 			var backRegion = new FlxClickArea(0, 0, Main.WIDTH - bg.width, Main.HEIGHT, onBackClicked);
 			add(backRegion);
 		});
+
+		Assets.loadLibrary(details.library).onProgress(onProgress).onComplete(onComplete).onError(onError);
 	}
 
 	override function update(elapsed:Float)
@@ -195,5 +203,27 @@ class MenuSelectionSubState extends FlxSubState
 			SCORES[details.score] = newLines;
 			toAdd = newLines;
 		});
+	}
+
+	private function onProgress(loaded:Int, total:Int)
+	{
+		var percent = Math.round((loaded / total) * 100);
+		loadText.text = 'Loading: $percent%';
+	}
+
+	private function onComplete(lib:AssetLibrary)
+	{
+		var playButton = new TextButton("Play", 60, onPlayClicked);
+		playButton.x = CENTER - playButton.width / 2;
+		playButton.y = loadText.y;
+
+		remove(loadText);
+		add(playButton);
+	}
+
+	private function onError(e:Dynamic)
+	{
+		FlxG.log.error(e);
+		loadText.text = "Loading Failed!";
 	}
 }
